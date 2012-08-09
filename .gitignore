@@ -8,3 +8,4 @@ TestResults
 # User files
 *.user
 *.docstates
+*.suo
