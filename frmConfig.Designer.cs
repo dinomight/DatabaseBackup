@@ -1,4 +1,4 @@
-﻿namespace DataBaseBackup
+﻿namespace DatabaseBackup
 {
     partial class frmConfig
     {

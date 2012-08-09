@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using KeePass.UI;
 
-namespace DataBaseBackup
+namespace DatabaseBackup
 {
     public partial class frmConfig : Form
     {
