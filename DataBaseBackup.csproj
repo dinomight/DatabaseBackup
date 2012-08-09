@@ -100,9 +100,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hd2-backup48x48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="image\hd2-backup48x48.png" />
   </ItemGroup>
   <ItemGroup>
