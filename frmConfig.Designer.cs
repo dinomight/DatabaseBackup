@@ -68,7 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDestination.Location = new System.Drawing.Point(12, 82);
             this.txtDestination.Name = "txtDestination";
-            this.txtDestination.Size = new System.Drawing.Size(262, 20);
+            this.txtDestination.Size = new System.Drawing.Size(262, 23);
             this.txtDestination.TabIndex = 1;
             // 
             // label1
@@ -77,7 +77,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 116);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.Size = new System.Drawing.Size(130, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Backup directory";
             // 
@@ -87,9 +87,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbFolder.FormattingEnabled = true;
+            this.lbFolder.ItemHeight = 17;
             this.lbFolder.Location = new System.Drawing.Point(12, 132);
             this.lbFolder.Name = "lbFolder";
-            this.lbFolder.Size = new System.Drawing.Size(227, 147);
+            this.lbFolder.Size = new System.Drawing.Size(227, 140);
             this.lbFolder.TabIndex = 4;
             this.lbFolder.SelectedIndexChanged += new System.EventHandler(this.lbFolder_SelectedIndexChanged);
             // 
@@ -121,9 +122,9 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(108, 313);
+            this.label2.Location = new System.Drawing.Point(82, 311);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 13);
+            this.label2.Size = new System.Drawing.Size(167, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "Number backup to keep :";
             // 
@@ -132,7 +133,7 @@
             this.txtQtyBackup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyBackup.Location = new System.Drawing.Point(255, 309);
             this.txtQtyBackup.Name = "txtQtyBackup";
-            this.txtQtyBackup.Size = new System.Drawing.Size(48, 20);
+            this.txtQtyBackup.Size = new System.Drawing.Size(48, 23);
             this.txtQtyBackup.TabIndex = 11;
             // 
             // btnOK
@@ -173,7 +174,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(90, 17);
             this.label3.TabIndex = 0;
             this.label3.Text = "Destination";
             // 
@@ -193,9 +194,9 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(49, 288);
+            this.label4.Location = new System.Drawing.Point(15, 287);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.Size = new System.Drawing.Size(90, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "Date format :";
             // 
@@ -205,12 +206,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDateFormat.Location = new System.Drawing.Point(111, 284);
             this.txtDateFormat.Name = "txtDateFormat";
-            this.txtDateFormat.Size = new System.Drawing.Size(163, 20);
+            this.txtDateFormat.Size = new System.Drawing.Size(163, 23);
             this.txtDateFormat.TabIndex = 8;
             // 
             // frmConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(312, 374);
             this.Controls.Add(this.btnHelpDateFormat);
