@@ -8,8 +8,8 @@
     <ProjectGuid>{4C1BB6F8-D2CD-49C2-9053-21705681356C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataBaseBackup</RootNamespace>
-    <AssemblyName>DataBaseBackup</AssemblyName>
+    <RootNamespace>DatabaseBackup</RootNamespace>
+    <AssemblyName>DatabaseBackup</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -53,9 +53,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KeePass, Version=2.0.6.20046, Culture=neutral, PublicKeyToken=fed2ed7716aecf5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Program Files\KeePass Password Safe\KeePass.exe</HintPath>
+    <Reference Include="KeePass">
+      <HintPath>..\KeePass\KeePass.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

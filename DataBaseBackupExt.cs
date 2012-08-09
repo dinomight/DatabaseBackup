@@ -9,14 +9,14 @@ using System.Windows.Forms;
 
 
 
-namespace DataBaseBackup
+namespace DatabaseBackup
 {
 	/// <summary>
 	/// This is the main plugin class. It must be named exactly
 	/// like the namespace and must be derived from
 	/// <c>KeePassPlugin</c>.
 	/// </summary>
-    public sealed class DataBaseBackupExt : Plugin
+    public sealed class DatabaseBackupExt : Plugin
 	{
 		// The sample plugin remembers its host in this variable.
 		private IPluginHost m_host = null;
