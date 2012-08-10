@@ -159,9 +159,9 @@
             // 
             this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnOK.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(474, 356);
+            this.btnOK.Location = new System.Drawing.Point(400, 356);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(64, 32);
+            this.btnOK.Size = new System.Drawing.Size(101, 32);
             this.btnOK.TabIndex = 12;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -170,9 +170,9 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnCancel.Location = new System.Drawing.Point(544, 356);
+            this.btnCancel.Location = new System.Drawing.Point(507, 356);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(64, 32);
+            this.btnCancel.Size = new System.Drawing.Size(101, 32);
             this.btnCancel.TabIndex = 13;
             this.btnCancel.Text = "C&ancel";
             this.btnCancel.UseVisualStyleBackColor = true;

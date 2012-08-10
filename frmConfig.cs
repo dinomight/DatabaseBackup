@@ -49,6 +49,8 @@ namespace DatabaseBackup
 
             chkBackupClosed.Checked = Properties.Settings.Default.BackupOnFileClosed;
             chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
+
+            lbFolders.SelectedIndexChanged += lbFolders_SelectedIndexChanged;
         }
 
         /// <summary>
@@ -82,6 +84,22 @@ namespace DatabaseBackup
         }
 
         /// <summary>
+        /// Handler for when the selected index changes in the folders list box.
+        /// This is used to enable or disable the remove button as items are
+        /// selected or deselected.
+        /// </summary>
+        /// <param name="sender">Information about the sender.</param>
+        /// <param name="e">Event information.</param>
+        private void lbFolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var items = lbFolders.SelectedItems;
+            if (items != null && items.Count > 0)
+                btnRemove.Enabled = true;
+            else
+                btnRemove.Enabled = false;
+        }
+
+        /// <summary>
         /// Handler for when the remove button is clicked.  The list of selected
         /// items is copied over and we proceed to remove each of those from the
         /// list of directories where the backups will be stored.
@@ -90,7 +108,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void btnRemove_Click(object sender, EventArgs e)
         {
-           List<string> SelectItem = new List<string>();
+            List<string> SelectItem = new List<string>();
 
             foreach (string it in lbFolders.SelectedItems)
                 SelectItem.Add(it);
