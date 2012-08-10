@@ -85,6 +85,7 @@ namespace DatabaseBackup
 
 			// hook the events we care about
 			m_host.MainWindow.FileSaved += OnFileSaved;
+            m_host.MainWindow.FileClosingPre += OnFileClosing;
 
 			return true;
 		}
@@ -277,7 +278,22 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnFileSaved(object sender, FileSavedEventArgs e)
         {
-            if(Properties.Settings.Default.AutoBackup)
+            if (Properties.Settings.Default.AutoBackup &&
+                Properties.Settings.Default.BackupOnFileSaved)
+                _BackupDB();
+        }
+
+        /// <summary>
+        /// Handler for when the database file is being closed by KeePass.  If
+        /// we are setup for automatic backup on this event, we go ahead and do
+        /// so.
+        /// </summary>
+        /// <param name="sender">Information about the sending object.</param>
+        /// <param name="e">Event information.</param>
+        private void OnFileClosing(object sender, FileClosingEventArgs e)
+        {
+            if (Properties.Settings.Default.AutoBackup &&
+                Properties.Settings.Default.BackupOnFileClosed)
                 _BackupDB();
         }
 	}

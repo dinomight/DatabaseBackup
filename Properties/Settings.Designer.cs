@@ -69,5 +69,29 @@ namespace DatabaseBackup.Properties {
                 this["DateFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BackupOnFileSaved {
+            get {
+                return ((bool)(this["BackupOnFileSaved"]));
+            }
+            set {
+                this["BackupOnFileSaved"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BackupOnFileClosed {
+            get {
+                return ((bool)(this["BackupOnFileClosed"]));
+            }
+            set {
+                this["BackupOnFileClosed"] = value;
+            }
+        }
     }
 }
