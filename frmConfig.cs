@@ -37,7 +37,6 @@ namespace DatabaseBackup
                 Properties.Resources.hd2_backup32x32, "Configuration", "Configure your Database Backups");
             this.Icon = Properties.Resources.hd2_backup;
 
-            txtNumBackup.Value = Properties.Settings.Default.BackupCount;
             if (Properties.Settings.Default.BackupFolders != null)
             {
                 foreach (string it in Properties.Settings.Default.BackupFolders)
@@ -45,7 +44,11 @@ namespace DatabaseBackup
                         lbFolders.Items.Add(it);
             }
 
+            txtNumBackup.Value = Properties.Settings.Default.BackupCount;
             txtDateFormat.Text = Properties.Settings.Default.DateFormat;
+
+            chkBackupClosed.Checked = Properties.Settings.Default.BackupOnFileClosed;
+            chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
         }
 
         /// <summary>
@@ -137,7 +140,11 @@ namespace DatabaseBackup
                 Properties.Settings.Default.BackupFolders.Add(it);
 
             Properties.Settings.Default.DateFormat = txtDateFormat.Text;
+            Properties.Settings.Default.BackupOnFileClosed = chkBackupClosed.Checked;
+            Properties.Settings.Default.BackupOnFileSaved = chkBackupSaved.Checked;
+
             Properties.Settings.Default.Save();
+
             this.Close();
         }
 
