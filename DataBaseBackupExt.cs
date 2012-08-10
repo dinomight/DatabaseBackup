@@ -54,7 +54,7 @@ namespace DatabaseBackup
 
 			// Add the popup menu item
 			m_tsmiPopup = new ToolStripMenuItem();
-			m_tsmiPopup.Text = "DB Backup Plug-in";
+			m_tsmiPopup.Text = "Database Backup";
 			tsMenu.Add(m_tsmiPopup);
 
 			// Add menu item 'Backup now'
@@ -78,7 +78,7 @@ namespace DatabaseBackup
 
             // Add menu item 'Configure'
             m_tsmiConfig = new ToolStripMenuItem();
-            m_tsmiConfig.Text = "Configure";
+            m_tsmiConfig.Text = "Configure...";
             m_tsmiConfig.Click += OnMenuConfig;
             m_tsmiConfig.Enabled = true;
             m_tsmiPopup.DropDownItems.Add(m_tsmiConfig);
