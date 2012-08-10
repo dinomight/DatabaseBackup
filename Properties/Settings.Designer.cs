@@ -26,29 +26,29 @@ namespace DatabaseBackup.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public uint HistoQty {
+        public uint BackupCount {
             get {
-                return ((uint)(this["HistoQty"]));
+                return ((uint)(this["BackupCount"]));
             }
             set {
-                this["HistoQty"] = value;
+                this["BackupCount"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection HistoFolder {
+        public global::System.Collections.Specialized.StringCollection BackupFolders {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["HistoFolder"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["BackupFolders"]));
             }
             set {
-                this["HistoFolder"] = value;
+                this["BackupFolders"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool AutoBackup {
             get {
                 return ((bool)(this["AutoBackup"]));

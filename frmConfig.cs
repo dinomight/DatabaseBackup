@@ -11,13 +11,13 @@ using System.Collections.Specialized;
 
 namespace DatabaseBackup
 {
-    public partial class frmConfig : Form
+    public partial class ConfigDialog : Form
     {
         /// <summary>
         /// Constructor for the form that goes out and initializes using the
         /// designer settings.
         /// </summary>
-        public frmConfig()
+        public ConfigDialog()
         {
             InitializeComponent();
         }
@@ -34,15 +34,15 @@ namespace DatabaseBackup
             // banner
             picBannerImage.Image = BannerFactory.CreateBanner(picBannerImage.Width,
                 picBannerImage.Height, BannerStyle.Default,
-                Properties.Resources.hd2_backup32x32, "Configuration", "Configuration for Database Backup");
+                Properties.Resources.hd2_backup32x32, "Configuration", "Configure your Database Backups");
             this.Icon = Properties.Resources.hd2_backup;
 
-            txtQtyBackup.Value = Properties.Settings.Default.HistoQty;
-            if (Properties.Settings.Default.HistoFolder != null)
+            txtNumBackup.Value = Properties.Settings.Default.BackupCount;
+            if (Properties.Settings.Default.BackupFolders != null)
             {
-                foreach (string it in Properties.Settings.Default.HistoFolder)
+                foreach (string it in Properties.Settings.Default.BackupFolders)
                     if (it != null)
-                        lbFolder.Items.Add(it);
+                        lbFolders.Items.Add(it);
             }
 
             txtDateFormat.Text = Properties.Settings.Default.DateFormat;
@@ -73,7 +73,7 @@ namespace DatabaseBackup
         {
             if (txtDestination.Text != "" && System.IO.Directory.Exists(txtDestination.Text))
             {
-                lbFolder.Items.Add(txtDestination.Text);
+                lbFolders.Items.Add(txtDestination.Text);
                 txtDestination.Text = "";
             }
         }
@@ -89,11 +89,11 @@ namespace DatabaseBackup
         {
            List<string> SelectItem = new List<string>();
 
-            foreach (string it in lbFolder.SelectedItems)
+            foreach (string it in lbFolders.SelectedItems)
                 SelectItem.Add(it);
 
             foreach (string it in SelectItem)
-                lbFolder.Items.Remove(it);
+                lbFolders.Items.Remove(it);
         }
 
         /// <summary>
@@ -128,31 +128,17 @@ namespace DatabaseBackup
             if (!_Valid())
                 return;
 
-            Properties.Settings.Default.HistoQty = (uint)txtQtyBackup.Value;
-            if (Properties.Settings.Default.HistoFolder == null)
-                Properties.Settings.Default.HistoFolder = new StringCollection();
+            Properties.Settings.Default.BackupCount = (uint)txtNumBackup.Value;
+            if (Properties.Settings.Default.BackupFolders == null)
+                Properties.Settings.Default.BackupFolders = new StringCollection();
 
-            Properties.Settings.Default.HistoFolder.Clear();
-            foreach (string it in lbFolder.Items)
-                Properties.Settings.Default.HistoFolder.Add(it);
+            Properties.Settings.Default.BackupFolders.Clear();
+            foreach (string it in lbFolders.Items)
+                Properties.Settings.Default.BackupFolders.Add(it);
 
             Properties.Settings.Default.DateFormat = txtDateFormat.Text;
             Properties.Settings.Default.Save();
             this.Close();
-        }
-
-        /// <summary>
-        /// Handler for when the selected index changes in the directory list.
-        /// When this happens, we update the tooltip for the list to be the
-        /// selected items text.
-        /// </summary>
-        /// <param name="sender">Information about the sender.</param>
-        /// <param name="e">Event information.</param>
-        private void lbFolder_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(lbFolder, "");
-            if (lbFolder.SelectedItem != null)
-                toolTip1.SetToolTip(lbFolder, lbFolder.SelectedItem.ToString());
         }
 
         /// <summary>

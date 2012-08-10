@@ -162,9 +162,9 @@ namespace DatabaseBackup
                 wc = null;
             }
 
-            if (Properties.Settings.Default.HistoFolder != null)
+            if (Properties.Settings.Default.BackupFolders != null)
             {
-                foreach (string it in Properties.Settings.Default.HistoFolder)
+                foreach (string it in Properties.Settings.Default.BackupFolders)
                 {
                     // read log file
                     string BackupLogFile = it + "/" + SourceFileName + "_log";
@@ -183,9 +183,9 @@ namespace DatabaseBackup
                         // delete extra file
                         if (LogFile != null)
                         {
-                            if (LogFile.Length + 1 > Properties.Settings.Default.HistoQty)
+                            if (LogFile.Length + 1 > Properties.Settings.Default.BackupCount)
                             {
-                                for (uint LoopDelete = Properties.Settings.Default.HistoQty - 1; LoopDelete < LogFile.Length; LoopDelete++)
+                                for (uint LoopDelete = Properties.Settings.Default.BackupCount - 1; LoopDelete < LogFile.Length; LoopDelete++)
                                 {
                                     if (File.Exists(LogFile[LoopDelete]))
                                         File.Delete(LogFile[LoopDelete]);
@@ -199,8 +199,8 @@ namespace DatabaseBackup
                         if (LogFile != null)
                         {
                             uint LoopMax = (uint)LogFile.Length;
-                            if (LoopMax > Properties.Settings.Default.HistoQty)
-                                LoopMax = Properties.Settings.Default.HistoQty;
+                            if (LoopMax > Properties.Settings.Default.BackupCount)
+                                LoopMax = Properties.Settings.Default.BackupCount;
                             for (uint i = 0; i < LoopMax; i++)
                                 fLog.WriteLine(LogFile[i]);
                         }
@@ -262,7 +262,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnMenuConfig(object sender, EventArgs e)
         {
-            frmConfig frm = new frmConfig();
+            ConfigDialog frm = new ConfigDialog();
             frm.ShowDialog();
             frm.Dispose();
             frm = null;

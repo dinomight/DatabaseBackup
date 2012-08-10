@@ -22,12 +22,12 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General assembly properties
-[assembly: AssemblyTitle("DataBaseBackup")]
+[assembly: AssemblyTitle("DatabaseBackup")]
 [assembly: AssemblyDescription("Backup your KeePass database.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Francis Noël")]
+[assembly: AssemblyCompany("Francis Noël/Dean Glazeski")]
 [assembly: AssemblyProduct("KeePass Plugin")]
-[assembly: AssemblyCopyright("Copyright © 2006-2011 Francis Noël")]
+[assembly: AssemblyCopyright("Copyright © 2006-2011 Francis Noël, 2012 Dean Glazeski")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("1cb02044-8fc3-40f7-9b0f-29cce26d8840")]
 
 // Assembly version information
-[assembly: AssemblyVersion("2.0.8.4")]
-[assembly: AssemblyFileVersion("2.0.8.4")]
+[assembly: AssemblyVersion("3.0")]
+[assembly: AssemblyFileVersion("3.0")]
