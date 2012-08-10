@@ -108,6 +108,7 @@ namespace DatabaseBackup
 
 			// Important! Remove event handlers!
 			m_host.MainWindow.FileSaved -= OnFileSaved;
+            m_host.MainWindow.FileClosingPre -= OnFileClosing;
 		}
 
         /// <summary>
