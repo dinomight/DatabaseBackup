@@ -61,7 +61,7 @@ namespace DatabaseBackup
             m_tsmiBackupNow = new ToolStripMenuItem();
             m_tsmiBackupNow.Text = "Backup Now";
             m_tsmiBackupNow.Click += OnMenuBackupNow;
-            m_tsmiBackupNow.Enabled = true;
+            m_tsmiBackupNow.Enabled = false;
             m_tsmiPopup.DropDownItems.Add(m_tsmiBackupNow);
 
             // Add a separator
@@ -84,6 +84,7 @@ namespace DatabaseBackup
             m_tsmiPopup.DropDownItems.Add(m_tsmiConfig);
 
 			// hook the events we care about
+            m_host.MainWindow.FileOpened += OnFileOpened;
 			m_host.MainWindow.FileSaved += OnFileSaved;
             m_host.MainWindow.FileClosingPre += OnFileClosing;
 
@@ -107,6 +108,7 @@ namespace DatabaseBackup
             tsMenu.Remove(m_tsmiConfig);
 
 			// Important! Remove event handlers!
+            m_host.MainWindow.FileOpened -= OnFileOpened;
 			m_host.MainWindow.FileSaved -= OnFileSaved;
             m_host.MainWindow.FileClosingPre -= OnFileClosing;
 		}
@@ -271,6 +273,17 @@ namespace DatabaseBackup
         }
 
         /// <summary>
+        /// Handler for when the database file is opened by KeePass.  We use
+        /// this event to enable the 'Backup Now' option from the tool menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnFileOpened(object sender, FileOpenedEventArgs e)
+        {
+            m_tsmiBackupNow.Enabled = true;
+        }
+
+        /// <summary>
         /// Handler for when the database file is saved from the KeePass GUI.
         /// If we are setup to do automatic backup, we go ahead and do the
         /// backup.
@@ -296,6 +309,8 @@ namespace DatabaseBackup
             if (Properties.Settings.Default.AutoBackup &&
                 Properties.Settings.Default.BackupOnFileClosed)
                 _BackupDB();
+
+            m_tsmiBackupNow.Enabled = false;
         }
 	}
 }
