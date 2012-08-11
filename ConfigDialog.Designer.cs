@@ -49,8 +49,8 @@
             this.tabDirectories = new System.Windows.Forms.TabPage();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabTriggers = new System.Windows.Forms.TabPage();
-            this.chkBackupSaved = new System.Windows.Forms.CheckBox();
             this.chkBackupClosed = new System.Windows.Forms.CheckBox();
+            this.chkBackupSaved = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumBackup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBannerImage)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -96,6 +96,7 @@
             this.lbFolders.ItemHeight = 17;
             this.lbFolders.Location = new System.Drawing.Point(9, 67);
             this.lbFolders.Name = "lbFolders";
+            this.lbFolders.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbFolders.Size = new System.Drawing.Size(499, 174);
             this.lbFolders.TabIndex = 4;
             // 
@@ -282,16 +283,6 @@
             this.tabTriggers.Text = "Triggers";
             this.tabTriggers.UseVisualStyleBackColor = true;
             // 
-            // chkBackupSaved
-            // 
-            this.chkBackupSaved.AutoSize = true;
-            this.chkBackupSaved.Location = new System.Drawing.Point(6, 13);
-            this.chkBackupSaved.Name = "chkBackupSaved";
-            this.chkBackupSaved.Size = new System.Drawing.Size(237, 21);
-            this.chkBackupSaved.TabIndex = 0;
-            this.chkBackupSaved.Text = "Backup when database is saved.";
-            this.chkBackupSaved.UseVisualStyleBackColor = true;
-            // 
             // chkBackupClosed
             // 
             this.chkBackupClosed.AutoSize = true;
@@ -301,6 +292,16 @@
             this.chkBackupClosed.TabIndex = 1;
             this.chkBackupClosed.Text = "Backup when database is closed (this includes closing KeePass).";
             this.chkBackupClosed.UseVisualStyleBackColor = true;
+            // 
+            // chkBackupSaved
+            // 
+            this.chkBackupSaved.AutoSize = true;
+            this.chkBackupSaved.Location = new System.Drawing.Point(6, 13);
+            this.chkBackupSaved.Name = "chkBackupSaved";
+            this.chkBackupSaved.Size = new System.Drawing.Size(237, 21);
+            this.chkBackupSaved.TabIndex = 0;
+            this.chkBackupSaved.Text = "Backup when database is saved.";
+            this.chkBackupSaved.UseVisualStyleBackColor = true;
             // 
             // ConfigDialog
             // 

@@ -42,9 +42,13 @@ namespace DatabaseBackup
 
             if (Properties.Settings.Default.BackupFolders != null)
             {
-                foreach (string it in Properties.Settings.Default.BackupFolders)
-                    if (it != null)
-                        lbFolders.Items.Add(it);
+                foreach (string folder in Properties.Settings.Default.BackupFolders)
+                {
+                    if (String.IsNullOrEmpty(folder))
+                        continue;
+                    
+                    lbFolders.Items.Add(folder);
+                }
             }
 
             txtNumBackup.Value = Properties.Settings.Default.BackupCount;
@@ -143,13 +147,13 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            List<string> SelectItem = new List<string>();
+            var items = new List<string>();
 
-            foreach (string it in lbFolders.SelectedItems)
-                SelectItem.Add(it);
+            foreach (string folder in lbFolders.SelectedItems)
+                items.Add(folder);
 
-            foreach (string it in SelectItem)
-                lbFolders.Items.Remove(it);
+            foreach (var folder in items)
+                lbFolders.Items.Remove(folder);
         }
 
         /// <summary>
