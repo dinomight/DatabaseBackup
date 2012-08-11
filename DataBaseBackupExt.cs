@@ -87,6 +87,7 @@ namespace DatabaseBackup
             m_host.MainWindow.FileOpened += OnFileOpened;
 			m_host.MainWindow.FileSaved += OnFileSaved;
             m_host.MainWindow.FileClosingPre += OnFileClosing;
+            m_host.MainWindow.FileCreated += OnFileCreated;
 
 			return true;
 		}
@@ -111,6 +112,7 @@ namespace DatabaseBackup
             m_host.MainWindow.FileOpened -= OnFileOpened;
 			m_host.MainWindow.FileSaved -= OnFileSaved;
             m_host.MainWindow.FileClosingPre -= OnFileClosing;
+            m_host.MainWindow.FileCreated -= OnFileCreated;
 		}
 
         /// <summary>
@@ -274,9 +276,21 @@ namespace DatabaseBackup
         /// Handler for when the database file is opened by KeePass.  We use
         /// this event to enable the 'Backup Now' option from the tool menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Information about the sender.</param>
+        /// <param name="e">Event information.</param>
         private void OnFileOpened(object sender, FileOpenedEventArgs e)
+        {
+            m_tsmiBackupNow.Enabled = true;
+        }
+
+        /// <summary>
+        /// Handler for when a database file is created by KeePass.  For some
+        /// reason, the open event doesn't fire when a new database is created,
+        /// so we must enable menu options after a file is created.
+        /// </summary>
+        /// <param name="sender">Information about the sender.</param>
+        /// <param name="e">Event information.</param>
+        private void OnFileCreated(object sender, FileCreatedEventArgs e)
         {
             m_tsmiBackupNow.Enabled = true;
         }
