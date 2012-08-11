@@ -52,6 +52,7 @@
             this.chkBackupClosed = new System.Windows.Forms.CheckBox();
             this.chkBackupSaved = new System.Windows.Forms.CheckBox();
             this.chkBackupOnModified = new System.Windows.Forms.CheckBox();
+            this.chkOverwriteBackup = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumBackup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBannerImage)).BeginInit();
             this.tabContainer.SuspendLayout();
@@ -274,6 +275,7 @@
             // 
             // tabTriggers
             // 
+            this.tabTriggers.Controls.Add(this.chkOverwriteBackup);
             this.tabTriggers.Controls.Add(this.chkBackupOnModified);
             this.tabTriggers.Controls.Add(this.chkBackupClosed);
             this.tabTriggers.Controls.Add(this.chkBackupSaved);
@@ -314,6 +316,16 @@
             this.chkBackupOnModified.TabIndex = 2;
             this.chkBackupOnModified.Text = "Only perform auto-backup when database is modified.";
             this.chkBackupOnModified.UseVisualStyleBackColor = true;
+            // 
+            // chkOverwriteBackup
+            // 
+            this.chkOverwriteBackup.AutoSize = true;
+            this.chkOverwriteBackup.Location = new System.Drawing.Point(7, 95);
+            this.chkOverwriteBackup.Name = "chkOverwriteBackup";
+            this.chkOverwriteBackup.Size = new System.Drawing.Size(307, 21);
+            this.chkOverwriteBackup.TabIndex = 3;
+            this.chkOverwriteBackup.Text = "Overwrite existing backups with same name.";
+            this.chkOverwriteBackup.UseVisualStyleBackColor = true;
             // 
             // ConfigDialog
             // 
@@ -370,5 +382,6 @@
         private System.Windows.Forms.CheckBox chkBackupClosed;
         private System.Windows.Forms.CheckBox chkBackupSaved;
         private System.Windows.Forms.CheckBox chkBackupOnModified;
+        private System.Windows.Forms.CheckBox chkOverwriteBackup;
     }
 }

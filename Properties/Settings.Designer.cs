@@ -105,5 +105,17 @@ namespace DatabaseBackup.Properties {
                 this["AutoBackupModifiedOnly"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OverwriteBackup {
+            get {
+                return ((bool)(this["OverwriteBackup"]));
+            }
+            set {
+                this["OverwriteBackup"] = value;
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace DatabaseBackup
             chkBackupClosed.Checked = Properties.Settings.Default.BackupOnFileClosed;
             chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
             chkBackupOnModified.Checked = Properties.Settings.Default.AutoBackupModifiedOnly;
+            chkOverwriteBackup.Checked = Properties.Settings.Default.OverwriteBackup;
 
             lbFolders.SelectedIndexChanged += lbFolders_SelectedIndexChanged;
             txtDestination.TextChanged += txtDestination_TextChanged;
@@ -202,6 +203,7 @@ namespace DatabaseBackup
             Properties.Settings.Default.BackupOnFileClosed = chkBackupClosed.Checked;
             Properties.Settings.Default.BackupOnFileSaved = chkBackupSaved.Checked;
             Properties.Settings.Default.AutoBackupModifiedOnly = chkBackupOnModified.Checked;
+            Properties.Settings.Default.OverwriteBackup = chkOverwriteBackup.Checked;
 
             Properties.Settings.Default.Save();
 

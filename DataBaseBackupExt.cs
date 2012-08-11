@@ -187,10 +187,17 @@ namespace DatabaseBackup
                 // create backup file
                 BackupFile = folder + "/" + SourceFileName + "_" +
                     DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
-                if (File.Exists(BackupFile))
+
+                bool backupExists = File.Exists(BackupFile);
+                if (backupExists && !Properties.Settings.Default.OverwriteBackup)
                     continue;
 
-                File.Copy(SourceFile, BackupFile);
+                File.Copy(SourceFile, BackupFile, true);
+
+                // if the backup existed, we just overwrote it.  There's no
+                // reason to do a purge or update the log.
+                if (backupExists)
+                    continue;
 
                 // read log file
                 string BackupLogFile = folder + "/" + SourceFileName + "_log";
