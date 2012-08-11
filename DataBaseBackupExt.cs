@@ -125,6 +125,11 @@ namespace DatabaseBackup
                 return;
             }
 
+            // make sure we have some folders to actually backup to
+            if (Properties.Settings.Default.BackupFolders == null ||
+                Properties.Settings.Default.BackupFolders.Count == 0)
+                return;
+
             string SourceFile = "";
             string SourceFileName = "";
             string BackupFile = "";
@@ -166,53 +171,50 @@ namespace DatabaseBackup
                 wc = null;
             }
 
-            if (Properties.Settings.Default.BackupFolders != null)
+            foreach (string it in Properties.Settings.Default.BackupFolders)
             {
-                foreach (string it in Properties.Settings.Default.BackupFolders)
+                // read log file
+                string BackupLogFile = it + "/" + SourceFileName + "_log";
+                string[] LogFile = null;
+                if (File.Exists(BackupLogFile))
                 {
-                    // read log file
-                    string BackupLogFile = it + "/" + SourceFileName + "_log";
-                    string[] LogFile = null;
-                    if (File.Exists(BackupLogFile))
-                    {
-                        LogFile = File.ReadAllLines(BackupLogFile);
-                    }
+                    LogFile = File.ReadAllLines(BackupLogFile);
+                }
 
-                    if (Directory.Exists(it))
-                    {
-                        // create file
-                        BackupFile = it + "/" + SourceFileName + "_" + DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
-                        File.Copy(SourceFile, BackupFile);
+                if (Directory.Exists(it))
+                {
+                    // create file
+                    BackupFile = it + "/" + SourceFileName + "_" + DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
+                    File.Copy(SourceFile, BackupFile);
 
-                        // delete extra file
-                        if (LogFile != null)
+                    // delete extra file
+                    if (LogFile != null)
+                    {
+                        if (LogFile.Length + 1 > Properties.Settings.Default.BackupCount)
                         {
-                            if (LogFile.Length + 1 > Properties.Settings.Default.BackupCount)
+                            for (uint LoopDelete = Properties.Settings.Default.BackupCount - 1; LoopDelete < LogFile.Length; LoopDelete++)
                             {
-                                for (uint LoopDelete = Properties.Settings.Default.BackupCount - 1; LoopDelete < LogFile.Length; LoopDelete++)
-                                {
-                                    if (File.Exists(LogFile[LoopDelete]))
-                                        File.Delete(LogFile[LoopDelete]);
-                                }
+                                if (File.Exists(LogFile[LoopDelete]))
+                                    File.Delete(LogFile[LoopDelete]);
                             }
                         }
-
-                        // write log file
-                        TextWriter fLog = new StreamWriter(BackupLogFile, false);
-                        fLog.WriteLine(BackupFile);
-                        if (LogFile != null)
-                        {
-                            uint LoopMax = (uint)LogFile.Length;
-                            if (LoopMax > Properties.Settings.Default.BackupCount)
-                                LoopMax = Properties.Settings.Default.BackupCount;
-                            for (uint i = 0; i < LoopMax; i++)
-                                fLog.WriteLine(LogFile[i]);
-                        }
-
-                        fLog.Close();
-                        fLog.Dispose();
-                        fLog = null;
                     }
+
+                    // write log file
+                    TextWriter fLog = new StreamWriter(BackupLogFile, false);
+                    fLog.WriteLine(BackupFile);
+                    if (LogFile != null)
+                    {
+                        uint LoopMax = (uint)LogFile.Length;
+                        if (LoopMax > Properties.Settings.Default.BackupCount)
+                            LoopMax = Properties.Settings.Default.BackupCount;
+                        for (uint i = 0; i < LoopMax; i++)
+                            fLog.WriteLine(LogFile[i]);
+                    }
+
+                    fLog.Close();
+                    fLog.Dispose();
+                    fLog = null;
                 }
             }
 

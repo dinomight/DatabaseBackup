@@ -33,9 +33,10 @@ namespace DatabaseBackup
         private void frmConfig_Load(object sender, EventArgs e)
         {
             // banner
-            picBannerImage.Image = BannerFactory.CreateBanner(picBannerImage.Width,
-                picBannerImage.Height, BannerStyle.Default,
-                Properties.Resources.hd2_backup32x32, "Configuration", "Configure your Database Backups");
+            picBannerImage.Image = BannerFactory.CreateBanner(
+                picBannerImage.Width, picBannerImage.Height,
+                BannerStyle.Default, Properties.Resources.hd2_backup32x32,
+                "Configuration", "Configure your Database Backups");
             this.Icon = Properties.Resources.hd2_backup;
 
             btnAdd.Enabled = false;
