@@ -50,7 +50,12 @@ namespace DatabaseBackup
             /// <summary>
             /// No folders are configured for backup.
             /// </summary>
-            NO_BACKUP_FOLDERS
+            NO_BACKUP_FOLDERS,
+
+            /// <summary>
+            /// None of the configured folders were available for backup.
+            /// </summary>
+            NO_VALID_FOLDERS,
         }
 
         /// <summary>
@@ -197,10 +202,13 @@ namespace DatabaseBackup
                 wc = null;
             }
 
+            bool backupPerformed = false;
             foreach (var folder in Properties.Settings.Default.BackupFolders)
             {
                 if (!Directory.Exists(folder))
                     continue;
+
+                backupPerformed = true;
 
                 // create backup file
                 BackupFile = folder + "/" + SourceFileName + "_" +
@@ -256,7 +264,11 @@ namespace DatabaseBackup
                 File.Delete(SourceFile);
             }
 
-            return BackupError.OK;
+            BackupError ret = BackupError.OK;
+            if (!backupPerformed)
+                ret = BackupError.NO_VALID_FOLDERS;
+
+            return ret;
         }
 
         /// <summary>
@@ -286,6 +298,10 @@ namespace DatabaseBackup
                     break;
                 case BackupError.NO_BACKUP_FOLDERS:
                     MessageBox.Show("You have not configured any backup directories yet.",
+                        "Database Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case BackupError.NO_VALID_FOLDERS:
+                    MessageBox.Show("Backup could not be done with currently configured directories.",
                         "Database Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case BackupError.OK:
