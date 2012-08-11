@@ -27,6 +27,10 @@ namespace DatabaseBackup
         private ToolStripMenuItem m_tsmiAutomaticBackup = null;
         private ToolStripMenuItem m_tsmiConfig = null;
 
+        // This flag makes it so we only make backups when the database has
+        // actually been modified.
+        private bool m_databaseModified = false;
+
 		/// <summary>
 		/// The <c>Initialize</c> function is called by KeePass when
 		/// you should initialize your plugin (create menu items, etc.).
@@ -85,6 +89,7 @@ namespace DatabaseBackup
 
 			// hook the events we care about
             m_host.MainWindow.FileOpened += OnFileOpened;
+            m_host.MainWindow.FileSaving += OnFileSaving;
 			m_host.MainWindow.FileSaved += OnFileSaved;
             m_host.MainWindow.FileClosingPre += OnFileClosing;
             m_host.MainWindow.FileCreated += OnFileCreated;
@@ -110,6 +115,7 @@ namespace DatabaseBackup
 
 			// Important! Remove event handlers!
             m_host.MainWindow.FileOpened -= OnFileOpened;
+            m_host.MainWindow.FileSaving -= OnFileSaving;
 			m_host.MainWindow.FileSaved -= OnFileSaved;
             m_host.MainWindow.FileClosingPre -= OnFileClosing;
             m_host.MainWindow.FileCreated -= OnFileCreated;
@@ -296,32 +302,52 @@ namespace DatabaseBackup
         }
 
         /// <summary>
+        /// Handler for when a file is being saved by KeePass.  We take this
+        /// opportunity to see if the file is actually modified.  We use this
+        /// to control later backup events.
+        /// </summary>
+        /// <param name="sender">Information about the sender.</param>
+        /// <param name="e">Event information.</param>
+        private void OnFileSaving(object sender, FileSavingEventArgs e)
+        {
+            m_databaseModified = e.Database.Modified;
+        }
+
+        /// <summary>
         /// Handler for when the database file is saved from the KeePass GUI.
         /// If we are setup to do automatic backup, we go ahead and do the
-        /// backup.
+        /// backup.  If we do the backup, we also clear the database modified
+        /// flag since we now have the latest database in the backup directory.
         /// </summary>
         /// <param name="sender">Information about the sender of the event.</param>
         /// <param name="e">Event information.</param>
         private void OnFileSaved(object sender, FileSavedEventArgs e)
         {
-            if (Properties.Settings.Default.AutoBackup &&
+            if (m_databaseModified &&
+                Properties.Settings.Default.AutoBackup &&
                 Properties.Settings.Default.BackupOnFileSaved)
+            {
                 _BackupDB();
+                m_databaseModified = false;
+            }
         }
 
         /// <summary>
         /// Handler for when the database file is being closed by KeePass.  If
         /// we are setup for automatic backup on this event, we go ahead and do
-        /// so.
+        /// so.  We also disable any menu actions that require a database to be
+        /// open and clear the modified flag.
         /// </summary>
         /// <param name="sender">Information about the sending object.</param>
         /// <param name="e">Event information.</param>
         private void OnFileClosing(object sender, FileClosingEventArgs e)
         {
-            if (Properties.Settings.Default.AutoBackup &&
+            if (m_databaseModified &&
+                Properties.Settings.Default.AutoBackup &&
                 Properties.Settings.Default.BackupOnFileClosed)
                 _BackupDB();
 
+            m_databaseModified = false;
             m_tsmiBackupNow.Enabled = false;
         }
 	}
