@@ -184,16 +184,19 @@ namespace DatabaseBackup
                 if (!Directory.Exists(folder))
                     continue;
 
+                // create backup file
+                BackupFile = folder + "/" + SourceFileName + "_" +
+                    DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
+                if (File.Exists(BackupFile))
+                    continue;
+
+                File.Copy(SourceFile, BackupFile);
+
                 // read log file
                 string BackupLogFile = folder + "/" + SourceFileName + "_log";
                 var LogFile = new string[] { };
                 if (File.Exists(BackupLogFile))
                     LogFile = File.ReadAllLines(BackupLogFile);
-
-                // create backup file
-                BackupFile = folder + "/" + SourceFileName + "_" +
-                    DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
-                File.Copy(SourceFile, BackupFile);
 
                 // record the newest backup at the top of the file
                 var newLog = new StreamWriter(BackupLogFile, false);
