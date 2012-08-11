@@ -57,6 +57,7 @@ namespace DatabaseBackup
 
             chkBackupClosed.Checked = Properties.Settings.Default.BackupOnFileClosed;
             chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
+            chkBackupOnModified.Checked = Properties.Settings.Default.AutoBackupModifiedOnly;
 
             lbFolders.SelectedIndexChanged += lbFolders_SelectedIndexChanged;
             txtDestination.TextChanged += txtDestination_TextChanged;
@@ -200,6 +201,7 @@ namespace DatabaseBackup
             Properties.Settings.Default.DateFormat = txtDateFormat.Text;
             Properties.Settings.Default.BackupOnFileClosed = chkBackupClosed.Checked;
             Properties.Settings.Default.BackupOnFileSaved = chkBackupSaved.Checked;
+            Properties.Settings.Default.AutoBackupModifiedOnly = chkBackupOnModified.Checked;
 
             Properties.Settings.Default.Save();
 

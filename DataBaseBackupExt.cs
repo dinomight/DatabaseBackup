@@ -314,6 +314,20 @@ namespace DatabaseBackup
         }
 
         /// <summary>
+        /// Determines if an automatic backup should be triggered.  This uses a
+        /// combination of the autobackup setting along with the database
+        /// modified flag to determine what should happen.
+        /// </summary>
+        /// <param name="extraConditions">Additional condition (and) required to enable backup. Default is true.</param>
+        /// <returns>True if an automatic backup should happen.</returns>
+        private bool ShouldAutoBackup(bool extraConditions = true)
+        {
+            return (!Properties.Settings.Default.AutoBackupModifiedOnly || m_databaseModified) &&
+                Properties.Settings.Default.AutoBackup
+                && extraConditions;
+        }
+
+        /// <summary>
         /// Handler for when the database file is saved from the KeePass GUI.
         /// If we are setup to do automatic backup, we go ahead and do the
         /// backup.  If we do the backup, we also clear the database modified
@@ -323,9 +337,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnFileSaved(object sender, FileSavedEventArgs e)
         {
-            if (m_databaseModified &&
-                Properties.Settings.Default.AutoBackup &&
-                Properties.Settings.Default.BackupOnFileSaved)
+            if (ShouldAutoBackup(Properties.Settings.Default.BackupOnFileSaved))
             {
                 _BackupDB();
                 m_databaseModified = false;
@@ -342,9 +354,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnFileClosing(object sender, FileClosingEventArgs e)
         {
-            if (m_databaseModified &&
-                Properties.Settings.Default.AutoBackup &&
-                Properties.Settings.Default.BackupOnFileClosed)
+            if (ShouldAutoBackup(Properties.Settings.Default.BackupOnFileClosed))
                 _BackupDB();
 
             m_databaseModified = false;
