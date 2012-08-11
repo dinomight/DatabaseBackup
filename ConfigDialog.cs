@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using KeePass.UI;
 using System.Collections.Specialized;
+using System.IO;
 
 namespace DatabaseBackup
 {
@@ -37,6 +38,8 @@ namespace DatabaseBackup
                 Properties.Resources.hd2_backup32x32, "Configuration", "Configure your Database Backups");
             this.Icon = Properties.Resources.hd2_backup;
 
+            btnAdd.Enabled = false;
+
             if (Properties.Settings.Default.BackupFolders != null)
             {
                 foreach (string it in Properties.Settings.Default.BackupFolders)
@@ -51,6 +54,32 @@ namespace DatabaseBackup
             chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
 
             lbFolders.SelectedIndexChanged += lbFolders_SelectedIndexChanged;
+            txtDestination.TextChanged += txtDestination_TextChanged;
+        }
+
+        /// <summary>
+        /// Handler for when the destination text field is changed.  We take
+        /// this opportunity to enable the add button if the directory in the
+        /// input exists.  If the directory does not exist, the text is colored
+        /// red to indicate that there is an issue with the path.
+        /// </summary>
+        /// <param name="sender">Information about the sender.</param>
+        /// <param name="e">Event information.</param>
+        private void txtDestination_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txtDestination.Text))
+                return;
+
+            if (Directory.Exists(txtDestination.Text))
+            {
+                txtDestination.ForeColor = Color.Black;
+                btnAdd.Enabled = true;
+            }
+            else
+            {
+                txtDestination.ForeColor = Color.Red;
+                btnAdd.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -76,10 +105,11 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (txtDestination.Text != "" && System.IO.Directory.Exists(txtDestination.Text))
+            if (txtDestination.Text != "" && Directory.Exists(txtDestination.Text))
             {
                 lbFolders.Items.Add(txtDestination.Text);
                 txtDestination.Text = "";
+                btnAdd.Enabled = false;
             }
         }
 
