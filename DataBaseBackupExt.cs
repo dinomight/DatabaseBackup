@@ -171,51 +171,47 @@ namespace DatabaseBackup
                 wc = null;
             }
 
-            foreach (string it in Properties.Settings.Default.BackupFolders)
+            foreach (var folder in Properties.Settings.Default.BackupFolders)
             {
+                if (!Directory.Exists(folder))
+                    continue;
+
                 // read log file
-                string BackupLogFile = it + "/" + SourceFileName + "_log";
-                string[] LogFile = null;
+                string BackupLogFile = folder + "/" + SourceFileName + "_log";
+                var LogFile = new string[] { };
                 if (File.Exists(BackupLogFile))
-                {
                     LogFile = File.ReadAllLines(BackupLogFile);
-                }
 
-                if (Directory.Exists(it))
+                // create backup file
+                BackupFile = folder + "/" + SourceFileName + "_" +
+                    DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
+                File.Copy(SourceFile, BackupFile);
+
+                // record the newest backup at the top of the file
+                var newLog = new StreamWriter(BackupLogFile, false);
+                newLog.WriteLine(BackupFile);
+                
+                // now go through the set of older backups and remove any that
+                // take us over our limit
+                for (uint i = 0, backupCount = 1; i < LogFile.Length; ++i, ++backupCount)
                 {
-                    // create file
-                    BackupFile = it + "/" + SourceFileName + "_" + DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
-                    File.Copy(SourceFile, BackupFile);
-
-                    // delete extra file
-                    if (LogFile != null)
+                    var oldBackup = LogFile[i];
+                    if (backupCount >= Properties.Settings.Default.BackupCount)
                     {
-                        if (LogFile.Length + 1 > Properties.Settings.Default.BackupCount)
-                        {
-                            for (uint LoopDelete = Properties.Settings.Default.BackupCount - 1; LoopDelete < LogFile.Length; LoopDelete++)
-                            {
-                                if (File.Exists(LogFile[LoopDelete]))
-                                    File.Delete(LogFile[LoopDelete]);
-                            }
-                        }
+                        // this backup is one more than we need, so get rid of it
+                        if (File.Exists(oldBackup))
+                            File.Delete(oldBackup);
                     }
-
-                    // write log file
-                    TextWriter fLog = new StreamWriter(BackupLogFile, false);
-                    fLog.WriteLine(BackupFile);
-                    if (LogFile != null)
+                    else
                     {
-                        uint LoopMax = (uint)LogFile.Length;
-                        if (LoopMax > Properties.Settings.Default.BackupCount)
-                            LoopMax = Properties.Settings.Default.BackupCount;
-                        for (uint i = 0; i < LoopMax; i++)
-                            fLog.WriteLine(LogFile[i]);
+                        // backup is valid, so keep and record it
+                        newLog.WriteLine(oldBackup);
                     }
-
-                    fLog.Close();
-                    fLog.Dispose();
-                    fLog = null;
                 }
+
+                newLog.Close();
+                newLog.Dispose();
+                newLog = null;
             }
 
             // delete temp remote file
