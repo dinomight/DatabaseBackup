@@ -31,6 +31,28 @@ namespace DatabaseBackup
         // actually been modified.
         private bool m_databaseModified = false;
 
+        /// <summary>
+        /// Specifies any kind of backup errors that were critical to the
+        /// operation of the backup.
+        /// </summary>
+        enum BackupError
+        {
+            /// <summary>
+            /// Backup completed successfully.
+            /// </summary>
+            OK,
+
+            /// <summary>
+            /// No database was open when the backup was requested.
+            /// </summary>
+            DATABASE_CLOSED,
+
+            /// <summary>
+            /// No folders are configured for backup.
+            /// </summary>
+            NO_BACKUP_FOLDERS
+        }
+
 		/// <summary>
 		/// The <c>Initialize</c> function is called by KeePass when
 		/// you should initialize your plugin (create menu items, etc.).
@@ -124,19 +146,15 @@ namespace DatabaseBackup
         /// <summary>
         /// Do the actual database backup to the configured directories.
         /// </summary>
-        private void _BackupDB()
+        private BackupError BackupDB()
         {
             if (!m_host.Database.IsOpen)
-            {
-                MessageBox.Show("The database isn't open for backup.  How did we "
-                    + "get here?");
-                return;
-            }
+                return BackupError.DATABASE_CLOSED;
 
             // make sure we have some folders to actually backup to
             if (Properties.Settings.Default.BackupFolders == null ||
                 Properties.Settings.Default.BackupFolders.Count == 0)
-                return;
+                return BackupError.NO_BACKUP_FOLDERS;
 
             string SourceFile = "";
             string SourceFileName = "";
@@ -237,16 +255,41 @@ namespace DatabaseBackup
             {
                 File.Delete(SourceFile);
             }
+
+            return BackupError.OK;
         }
 
+        /// <summary>
+        /// Function to call when an automated backup is triggered.
+        /// </summary>
+        /// The whole idea is that any issue during an automated backup should
+        /// be eaten and not presented to the user.  The reasoning for this is
+        /// that these errors are generally benign enough to be ignored anyways.
         private void AutoBackup()
         {
-            _BackupDB();
+            BackupDB();
         }
 
+        /// <summary>
+        /// Function to call when a user triggers a backup operation.
+        /// </summary>
+        /// This function actually examines the results of a backup operation
+        /// and reports the results to the user so they know when something has
+        /// happened and is completed.
         private void UserBackup()
         {
-            _BackupDB();
+            switch (BackupDB())
+            {
+                case BackupError.DATABASE_CLOSED:
+                    MessageBox.Show("A database must be open for a backup to be performed.");
+                    break;
+                case BackupError.NO_BACKUP_FOLDERS:
+                    MessageBox.Show("You have not configured any backup directories yet.");
+                    break;
+                case BackupError.OK:
+                    MessageBox.Show("Backup completed successfully.");
+                    break;
+            }
         }
 
         /// <summary>
