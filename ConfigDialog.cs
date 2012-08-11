@@ -111,6 +111,11 @@ namespace DatabaseBackup
                 txtDestination.Text = "";
                 btnAdd.Enabled = false;
             }
+            else
+            {
+                MessageBox.Show("The destination directory must exist in order "
+                    + "for a backup to be sent to it.");
+            }
         }
 
         /// <summary>
