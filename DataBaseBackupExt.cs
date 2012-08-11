@@ -281,13 +281,16 @@ namespace DatabaseBackup
             switch (BackupDB())
             {
                 case BackupError.DATABASE_CLOSED:
-                    MessageBox.Show("A database must be open for a backup to be performed.");
+                    MessageBox.Show("A database must be open for a backup to be performed.",
+                        "Database Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case BackupError.NO_BACKUP_FOLDERS:
-                    MessageBox.Show("You have not configured any backup directories yet.");
+                    MessageBox.Show("You have not configured any backup directories yet.",
+                        "Database Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case BackupError.OK:
-                    MessageBox.Show("Backup completed successfully.");
+                    MessageBox.Show("Backup completed successfully.",
+                        "Database Backup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
             }
         }
