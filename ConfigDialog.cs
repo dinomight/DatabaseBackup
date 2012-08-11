@@ -47,7 +47,7 @@ namespace DatabaseBackup
                 {
                     if (String.IsNullOrEmpty(folder))
                         continue;
-                    
+
                     lbFolders.Items.Add(folder);
                 }
             }

@@ -11,19 +11,19 @@ using System.Net.Cache;
 
 namespace DatabaseBackup
 {
-	/// <summary>
-	/// This is the main plugin class. It must be named exactly the same as the
+    /// <summary>
+    /// This is the main plugin class. It must be named exactly the same as the
     /// namespace and must be derived from the KeePass Plugin class.
-	/// </summary>
+    /// </summary>
     public sealed class DatabaseBackupExt : Plugin
-	{
-		// Host that we use to gain access to the KeePass GUI and all the good
+    {
+        // Host that we use to gain access to the KeePass GUI and all the good
         // database pieces.
-		private IPluginHost m_host = null;
+        private IPluginHost m_host = null;
 
-		private ToolStripSeparator m_tsSeparator = null;
-		private ToolStripMenuItem m_tsmiPopup = null;
-		private ToolStripMenuItem m_tsmiBackupNow = null;
+        private ToolStripSeparator m_tsSeparator = null;
+        private ToolStripMenuItem m_tsmiPopup = null;
+        private ToolStripMenuItem m_tsmiBackupNow = null;
         private ToolStripMenuItem m_tsmiAutomaticBackup = null;
         private ToolStripMenuItem m_tsmiConfig = null;
 
@@ -53,37 +53,37 @@ namespace DatabaseBackup
             NO_BACKUP_FOLDERS
         }
 
-		/// <summary>
-		/// The <c>Initialize</c> function is called by KeePass when
-		/// you should initialize your plugin (create menu items, etc.).
-		/// </summary>
-		/// <param name="host">Plugin host interface. By using this
-		/// interface, you can access the KeePass main window and the
-		/// currently opened database.</param>
-		/// <returns>You must return <c>true</c> in order to signal
-		/// successful initialization. If you return <c>false</c>,
-		/// KeePass unloads your plugin (without calling the
-		/// <c>Terminate</c> function of your plugin).</returns>
-		public override bool Initialize(IPluginHost host)
-		{
-			Debug.Assert(host != null);
+        /// <summary>
+        /// The <c>Initialize</c> function is called by KeePass when
+        /// you should initialize your plugin (create menu items, etc.).
+        /// </summary>
+        /// <param name="host">Plugin host interface. By using this
+        /// interface, you can access the KeePass main window and the
+        /// currently opened database.</param>
+        /// <returns>You must return <c>true</c> in order to signal
+        /// successful initialization. If you return <c>false</c>,
+        /// KeePass unloads your plugin (without calling the
+        /// <c>Terminate</c> function of your plugin).</returns>
+        public override bool Initialize(IPluginHost host)
+        {
+            Debug.Assert(host != null);
 
-			if(host == null) return false;
-			m_host = host;
+            if(host == null) return false;
+            m_host = host;
 
-			// Get a reference to the 'Tools' menu item container
-			ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
+            // Get a reference to the 'Tools' menu item container
+            ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
 
-			// Add a separator at the bottom
-			m_tsSeparator = new ToolStripSeparator();
-			tsMenu.Add(m_tsSeparator);
+            // Add a separator at the bottom
+            m_tsSeparator = new ToolStripSeparator();
+            tsMenu.Add(m_tsSeparator);
 
-			// Add the popup menu item
-			m_tsmiPopup = new ToolStripMenuItem();
-			m_tsmiPopup.Text = "Database Backup";
-			tsMenu.Add(m_tsmiPopup);
+            // Add the popup menu item
+            m_tsmiPopup = new ToolStripMenuItem();
+            m_tsmiPopup.Text = "Database Backup";
+            tsMenu.Add(m_tsmiPopup);
 
-			// Add menu item 'Backup now'
+            // Add menu item 'Backup now'
             m_tsmiBackupNow = new ToolStripMenuItem();
             m_tsmiBackupNow.Text = "Backup Now";
             m_tsmiBackupNow.Click += OnMenuBackupNow;
@@ -109,39 +109,39 @@ namespace DatabaseBackup
             m_tsmiConfig.Enabled = true;
             m_tsmiPopup.DropDownItems.Add(m_tsmiConfig);
 
-			// hook the events we care about
+            // hook the events we care about
             m_host.MainWindow.FileOpened += OnFileOpened;
             m_host.MainWindow.FileSaving += OnFileSaving;
-			m_host.MainWindow.FileSaved += OnFileSaved;
+            m_host.MainWindow.FileSaved += OnFileSaved;
             m_host.MainWindow.FileClosingPre += OnFileClosing;
             m_host.MainWindow.FileCreated += OnFileCreated;
 
-			return true;
-		}
+            return true;
+        }
 
-		/// <summary>
-		/// The <c>Terminate</c> function is called by KeePass when
-		/// you should free all resources, close open files/streams,
-		/// etc. It is also recommended that you remove all your
-		/// plugin menu items from the KeePass menu.
-		/// </summary>
-		public override void Terminate()
-		{
-			// Remove all of our menu items
-			ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
-			tsMenu.Remove(m_tsSeparator);
-			tsMenu.Remove(m_tsmiPopup);
+        /// <summary>
+        /// The <c>Terminate</c> function is called by KeePass when
+        /// you should free all resources, close open files/streams,
+        /// etc. It is also recommended that you remove all your
+        /// plugin menu items from the KeePass menu.
+        /// </summary>
+        public override void Terminate()
+        {
+            // Remove all of our menu items
+            ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
+            tsMenu.Remove(m_tsSeparator);
+            tsMenu.Remove(m_tsmiPopup);
             tsMenu.Remove(m_tsmiBackupNow);
             tsMenu.Remove(m_tsmiAutomaticBackup);
             tsMenu.Remove(m_tsmiConfig);
 
-			// Important! Remove event handlers!
+            // Important! Remove event handlers!
             m_host.MainWindow.FileOpened -= OnFileOpened;
             m_host.MainWindow.FileSaving -= OnFileSaving;
-			m_host.MainWindow.FileSaved -= OnFileSaved;
+            m_host.MainWindow.FileSaved -= OnFileSaved;
             m_host.MainWindow.FileClosingPre -= OnFileClosing;
             m_host.MainWindow.FileCreated -= OnFileCreated;
-		}
+        }
 
         /// <summary>
         /// Do the actual database backup to the configured directories.
@@ -184,7 +184,7 @@ namespace DatabaseBackup
 
                 SourceFileName = _RemoveSpecialChars(SourceFileName);
                 SourceFile = Path.GetTempFileName();
-                   
+
                 WebClient wc = new WebClient();
 
                 wc.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
@@ -226,7 +226,7 @@ namespace DatabaseBackup
                 // record the newest backup at the top of the file
                 var newLog = new StreamWriter(BackupLogFile, false);
                 newLog.WriteLine(BackupFile);
-                
+
                 // now go through the set of older backups and remove any that
                 // take us over our limit
                 for (uint i = 0, backupCount = 1; i < LogFile.Length; ++i, ++backupCount)
@@ -324,11 +324,11 @@ namespace DatabaseBackup
         /// <param name="sender">Information about the sender of the event.</param>
         /// <param name="e">Event information.</param>
         private void OnMenuAutomaticBackup(object sender, EventArgs e)
-		{
+        {
             Properties.Settings.Default.AutoBackup = !Properties.Settings.Default.AutoBackup;
             Properties.Settings.Default.Save();
             ((ToolStripMenuItem)sender).Checked = Properties.Settings.Default.AutoBackup;
-		}
+        }
 
         /// <summary>
         /// Handler for when the configuration menu option is selected.  This
@@ -426,5 +426,5 @@ namespace DatabaseBackup
             m_databaseModified = false;
             m_tsmiBackupNow.Enabled = false;
         }
-	}
+    }
 }
