@@ -239,6 +239,16 @@ namespace DatabaseBackup
             }
         }
 
+        private void AutoBackup()
+        {
+            _BackupDB();
+        }
+
+        private void UserBackup()
+        {
+            _BackupDB();
+        }
+
         /// <summary>
         /// Removes any special characters that may appear in the filename so
         /// that we have a clear name when we try and write the backup to the
@@ -258,7 +268,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnMenuBackupNow(object sender, EventArgs e)
         {
-            _BackupDB();
+            UserBackup();
         }
 
         /// <summary>
@@ -349,7 +359,7 @@ namespace DatabaseBackup
         {
             if (ShouldAutoBackup(Properties.Settings.Default.BackupOnFileSaved))
             {
-                _BackupDB();
+                AutoBackup();
                 m_databaseModified = false;
             }
         }
@@ -365,7 +375,7 @@ namespace DatabaseBackup
         private void OnFileClosing(object sender, FileClosingEventArgs e)
         {
             if (ShouldAutoBackup(Properties.Settings.Default.BackupOnFileClosed))
-                _BackupDB();
+                AutoBackup();
 
             m_databaseModified = false;
             m_tsmiBackupNow.Enabled = false;
