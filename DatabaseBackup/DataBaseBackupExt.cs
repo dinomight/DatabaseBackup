@@ -24,6 +24,7 @@ namespace DatabaseBackup
 
         private ToolStripSeparator m_toolsSeparator = null;
         private ToolStripMenuItem m_mainPopup = null;
+        private ToolStripMenuItem m_backupNowToolItem = null;
 
         // This flag makes it so we only make backups when the database has
         // actually been modified.
@@ -110,11 +111,11 @@ namespace DatabaseBackup
             toolsMenu.Add(m_mainPopup);
 
             // Add menu item 'Backup now'
-            var backupNow = new ToolStripMenuItem();
-            backupNow.Text = "Backup Now";
-            backupNow.Click += OnMenuBackupNow;
-            backupNow.Enabled = false;
-            m_mainPopup.DropDownItems.Add(backupNow);
+            m_backupNowToolItem = new ToolStripMenuItem();
+            m_backupNowToolItem.Text = "Backup Now";
+            m_backupNowToolItem.Click += OnMenuBackupNow;
+            m_backupNowToolItem.Enabled = false;
+            m_mainPopup.DropDownItems.Add(m_backupNowToolItem);
 
             // Add a separator
             m_toolsSeparator = new ToolStripSeparator();
@@ -416,7 +417,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnFileOpened(object sender, FileOpenedEventArgs e)
         {
-            m_tsmiBackupNow.Enabled = true;
+            m_backupNowToolItem.Enabled = true;
         }
 
         /// <summary>
@@ -428,7 +429,7 @@ namespace DatabaseBackup
         /// <param name="e">Event information.</param>
         private void OnFileCreated(object sender, FileCreatedEventArgs e)
         {
-            m_tsmiBackupNow.Enabled = true;
+            m_backupNowToolItem.Enabled = true;
         }
 
         /// <summary>
@@ -488,7 +489,7 @@ namespace DatabaseBackup
                 AutoBackup();
 
             m_databaseModified = false;
-            m_tsmiBackupNow.Enabled = false;
+            m_backupNowToolItem.Enabled = false;
         }
     }
 }
