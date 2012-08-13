@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Cache;
+using DatabaseBackup.UI;
 
 namespace DatabaseBackup
 {

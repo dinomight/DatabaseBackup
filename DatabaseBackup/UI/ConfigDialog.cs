@@ -10,7 +10,7 @@ using KeePass.UI;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace DatabaseBackup
+namespace DatabaseBackup.UI
 {
     public partial class ConfigDialog : Form
     {

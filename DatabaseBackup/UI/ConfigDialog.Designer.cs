@@ -1,4 +1,4 @@
-﻿namespace DatabaseBackup
+﻿namespace DatabaseBackup.UI
 {
     partial class ConfigDialog
     {
