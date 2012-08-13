@@ -77,6 +77,29 @@ namespace DatabaseBackup
             if(host == null) return false;
             m_host = host;
 
+            AddMenuItems();
+            ConnectEvents();
+
+            return true;
+        }
+
+        /// <summary>
+        /// The <c>Terminate</c> function is called by KeePass when
+        /// you should free all resources, close open files/streams,
+        /// etc. It is also recommended that you remove all your
+        /// plugin menu items from the KeePass menu.
+        /// </summary>
+        public override void Terminate()
+        {
+            RemoveMenuItems();
+            DisconnectEvents();
+        }
+
+        /// <summary>
+        /// Adds all of the menu items associated with this plugin.
+        /// </summary>
+        private void AddMenuItems()
+        {
             // Get a reference to the 'Tools' menu item container
             ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
 
@@ -114,34 +137,38 @@ namespace DatabaseBackup
             m_tsmiConfig.Click += OnMenuConfig;
             m_tsmiConfig.Enabled = true;
             m_tsmiPopup.DropDownItems.Add(m_tsmiConfig);
-
-            // hook the events we care about
-            m_host.MainWindow.FileOpened += OnFileOpened;
-            m_host.MainWindow.FileSaving += OnFileSaving;
-            m_host.MainWindow.FileSaved += OnFileSaved;
-            m_host.MainWindow.FileClosingPre += OnFileClosing;
-            m_host.MainWindow.FileCreated += OnFileCreated;
-
-            return true;
         }
 
         /// <summary>
-        /// The <c>Terminate</c> function is called by KeePass when
-        /// you should free all resources, close open files/streams,
-        /// etc. It is also recommended that you remove all your
-        /// plugin menu items from the KeePass menu.
+        /// Removes all of the menu items that we had added to the main windows.
         /// </summary>
-        public override void Terminate()
+        private void RemoveMenuItems()
         {
-            // Remove all of our menu items
             ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
             tsMenu.Remove(m_tsSeparator);
             tsMenu.Remove(m_tsmiPopup);
             tsMenu.Remove(m_tsmiBackupNow);
             tsMenu.Remove(m_tsmiAutomaticBackup);
             tsMenu.Remove(m_tsmiConfig);
+        }
 
-            // Important! Remove event handlers!
+        /// <summary>
+        /// Connects all of the events that we want to keep an eye on.
+        /// </summary>
+        private void ConnectEvents()
+        {
+            m_host.MainWindow.FileOpened += OnFileOpened;
+            m_host.MainWindow.FileSaving += OnFileSaving;
+            m_host.MainWindow.FileSaved += OnFileSaved;
+            m_host.MainWindow.FileClosingPre += OnFileClosing;
+            m_host.MainWindow.FileCreated += OnFileCreated;
+        }
+
+        /// <summary>
+        /// Disconnects all of the events that we were listening for.
+        /// </summary>
+        private void DisconnectEvents()
+        {
             m_host.MainWindow.FileOpened -= OnFileOpened;
             m_host.MainWindow.FileSaving -= OnFileSaving;
             m_host.MainWindow.FileSaved -= OnFileSaved;
