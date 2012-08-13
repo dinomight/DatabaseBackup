@@ -274,12 +274,37 @@ namespace DatabaseBackup
         /// <summary>
         /// Function to call when an automated backup is triggered.
         /// </summary>
-        /// The whole idea is that any issue during an automated backup should
-        /// be eaten and not presented to the user.  The reasoning for this is
-        /// that these errors are generally benign enough to be ignored anyways.
+        /// This uses the balloon tip method to let the user know if anything
+        /// erroroneuous happened during an automated backup operation.
         private void AutoBackup()
         {
-            BackupDB();
+            switch (BackupDB())
+            {
+                case BackupError.DATABASE_CLOSED:
+                    m_host.MainWindow.Invoke(new MethodInvoker(delegate()
+                    {
+                        m_host.MainWindow.MainNotifyIcon.ShowBalloonTip(5000, "Database Backup",
+                            "Automatic backup faild. No database was open for backup.",
+                            ToolTipIcon.Error);
+                    }));
+                    break;
+                case BackupError.NO_BACKUP_FOLDERS:
+                    m_host.MainWindow.Invoke(new MethodInvoker(delegate()
+                    {
+                        m_host.MainWindow.MainNotifyIcon.ShowBalloonTip(5000, "Database Backup",
+                            "Automatic backup failed. No backup folders are configured.",
+                            ToolTipIcon.Error);
+                    }));
+                    break;
+                case BackupError.NO_VALID_FOLDERS:
+                    m_host.MainWindow.Invoke(new MethodInvoker(delegate()
+                    {
+                        m_host.MainWindow.MainNotifyIcon.ShowBalloonTip(5000, "Database Backup",
+                            "Automatic backup failed. None of the configured backup folders are available.",
+                            ToolTipIcon.Error);
+                    }));
+                    break;
+            }
         }
 
         /// <summary>
