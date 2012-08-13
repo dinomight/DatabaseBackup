@@ -22,11 +22,8 @@ namespace DatabaseBackup
         // database pieces.
         private IPluginHost m_host = null;
 
-        private ToolStripSeparator m_tsSeparator = null;
-        private ToolStripMenuItem m_tsmiPopup = null;
-        private ToolStripMenuItem m_tsmiBackupNow = null;
-        private ToolStripMenuItem m_tsmiAutomaticBackup = null;
-        private ToolStripMenuItem m_tsmiConfig = null;
+        private ToolStripSeparator m_toolsSeparator = null;
+        private ToolStripMenuItem m_mainPopup = null;
 
         // This flag makes it so we only make backups when the database has
         // actually been modified.
@@ -101,42 +98,42 @@ namespace DatabaseBackup
         private void AddMenuItems()
         {
             // Get a reference to the 'Tools' menu item container
-            ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
+            var toolsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
 
             // Add a separator at the bottom
-            m_tsSeparator = new ToolStripSeparator();
-            tsMenu.Add(m_tsSeparator);
+            m_toolsSeparator = new ToolStripSeparator();
+            toolsMenu.Add(m_toolsSeparator);
 
             // Add the popup menu item
-            m_tsmiPopup = new ToolStripMenuItem();
-            m_tsmiPopup.Text = "Database Backup";
-            tsMenu.Add(m_tsmiPopup);
+            m_mainPopup = new ToolStripMenuItem();
+            m_mainPopup.Text = "Database Backup";
+            toolsMenu.Add(m_mainPopup);
 
             // Add menu item 'Backup now'
-            m_tsmiBackupNow = new ToolStripMenuItem();
-            m_tsmiBackupNow.Text = "Backup Now";
-            m_tsmiBackupNow.Click += OnMenuBackupNow;
-            m_tsmiBackupNow.Enabled = false;
-            m_tsmiPopup.DropDownItems.Add(m_tsmiBackupNow);
+            var backupNow = new ToolStripMenuItem();
+            backupNow.Text = "Backup Now";
+            backupNow.Click += OnMenuBackupNow;
+            backupNow.Enabled = false;
+            m_mainPopup.DropDownItems.Add(backupNow);
 
             // Add a separator
-            m_tsSeparator = new ToolStripSeparator();
-            m_tsmiPopup.DropDownItems.Add(m_tsSeparator);
+            m_toolsSeparator = new ToolStripSeparator();
+            m_mainPopup.DropDownItems.Add(m_toolsSeparator);
 
             // Add menu item 'Auto Backup'
-            m_tsmiAutomaticBackup = new ToolStripMenuItem();
-            m_tsmiAutomaticBackup.Text = "Automatically Backup DB";
-            m_tsmiAutomaticBackup.Checked = Properties.Settings.Default.AutoBackup;
-            m_tsmiAutomaticBackup.Click += OnMenuAutomaticBackup;
-            m_tsmiAutomaticBackup.Enabled = true;
-            m_tsmiPopup.DropDownItems.Add(m_tsmiAutomaticBackup);
+            var autoBackup = new ToolStripMenuItem();
+            autoBackup.Text = "Automatically Backup DB";
+            autoBackup.Checked = Properties.Settings.Default.AutoBackup;
+            autoBackup.Click += OnMenuAutomaticBackup;
+            autoBackup.Enabled = true;
+            m_mainPopup.DropDownItems.Add(autoBackup);
 
             // Add menu item 'Configure'
-            m_tsmiConfig = new ToolStripMenuItem();
-            m_tsmiConfig.Text = "Configure...";
-            m_tsmiConfig.Click += OnMenuConfig;
-            m_tsmiConfig.Enabled = true;
-            m_tsmiPopup.DropDownItems.Add(m_tsmiConfig);
+            var configure = new ToolStripMenuItem();
+            configure.Text = "Configure...";
+            configure.Click += OnMenuConfig;
+            configure.Enabled = true;
+            m_mainPopup.DropDownItems.Add(configure);
         }
 
         /// <summary>
@@ -145,11 +142,9 @@ namespace DatabaseBackup
         private void RemoveMenuItems()
         {
             ToolStripItemCollection tsMenu = m_host.MainWindow.ToolsMenu.DropDownItems;
-            tsMenu.Remove(m_tsSeparator);
-            tsMenu.Remove(m_tsmiPopup);
-            tsMenu.Remove(m_tsmiBackupNow);
-            tsMenu.Remove(m_tsmiAutomaticBackup);
-            tsMenu.Remove(m_tsmiConfig);
+
+            tsMenu.Remove(m_toolsSeparator);
+            tsMenu.Remove(m_mainPopup);
         }
 
         /// <summary>
