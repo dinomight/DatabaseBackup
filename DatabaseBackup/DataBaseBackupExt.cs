@@ -235,8 +235,9 @@ namespace DatabaseBackup
                 backupPerformed = true;
 
                 // create backup file
-                BackupFile = folder + "/" + SourceFileName + "_" +
+                var backupName = SourceFileName + "_" +
                     DateTime.Now.ToString(Properties.Settings.Default.DateFormat) + ".kdbx";
+                BackupFile = Path.Combine(folder, backupName);
 
                 bool backupExists = File.Exists(BackupFile);
                 if (backupExists && !Properties.Settings.Default.OverwriteBackup)
@@ -250,7 +251,8 @@ namespace DatabaseBackup
                     continue;
 
                 // read log file
-                string BackupLogFile = folder + "/" + SourceFileName + "_log";
+                var logName = SourceFileName + "_log";
+                var BackupLogFile = Path.Combine(folder, logName);
                 var LogFile = new string[] { };
                 if (File.Exists(BackupLogFile))
                     LogFile = File.ReadAllLines(BackupLogFile);
