@@ -453,7 +453,7 @@ namespace DatabaseBackup
         /// </summary>
         /// <param name="extraConditions">Additional condition (and) required to enable backup. Default is true.</param>
         /// <returns>True if an automatic backup should happen.</returns>
-        private bool ShouldAutoBackup(bool extraConditions = true)
+        private bool ShouldAutoBackup(bool extraConditions)
         {
             return (!Properties.Settings.Default.AutoBackupModifiedOnly || m_databaseModified) &&
                 Properties.Settings.Default.AutoBackup
