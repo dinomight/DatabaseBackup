@@ -57,6 +57,7 @@ namespace DatabaseBackup.UI
 
             chkBackupClosed.Checked = Properties.Settings.Default.BackupOnFileClosed;
             chkBackupSaved.Checked = Properties.Settings.Default.BackupOnFileSaved;
+            chkBackupOpened.Checked = Properties.Settings.Default.BackupOnFileOpened;
             chkBackupOnModified.Checked = Properties.Settings.Default.AutoBackupModifiedOnly;
             chkOverwriteBackup.Checked = Properties.Settings.Default.OverwriteBackup;
 
@@ -200,6 +201,7 @@ namespace DatabaseBackup.UI
                 Properties.Settings.Default.BackupFolders.Add(it);
 
             Properties.Settings.Default.DateFormat = txtDateFormat.Text;
+            Properties.Settings.Default.BackupOnFileOpened = chkBackupOpened.Checked;
             Properties.Settings.Default.BackupOnFileClosed = chkBackupClosed.Checked;
             Properties.Settings.Default.BackupOnFileSaved = chkBackupSaved.Checked;
             Properties.Settings.Default.AutoBackupModifiedOnly = chkBackupOnModified.Checked;
