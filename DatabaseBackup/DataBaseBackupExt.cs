@@ -420,6 +420,12 @@ namespace DatabaseBackup
         private void OnFileOpened(object sender, FileOpenedEventArgs e)
         {
             m_backupNowToolItem.Enabled = true;
+
+            if (Properties.Settings.Default.BackupOnFileOpened)
+            {
+                AutoBackup();
+                m_databaseModified = false;
+            }
         }
 
         /// <summary>
